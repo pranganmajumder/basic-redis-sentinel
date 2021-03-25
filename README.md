@@ -15,7 +15,7 @@ Then run the command `redis-server redis.conf` for every node to run the server.
 ##### Testing:
 ###### Set and get key from Database:
   * At first set some key into master node as many as you want 
-  * `redis-cli -p 6379` then `set name prangan` 
+  * `redis-cli -p 6379` then `INFO replication` to see the master node configuration then set a key `set name prangan` 
   * Now check if it's synchonized in the other two slaves or not. if it's in slave also then your setup is ok, otherwise error 
   * Then go to another slave node `redis-cli -p 6381` and try to set a key. But it will show `You can't write against a read only replica` since it's the slave node. you don't have any permission to write there. You can only get a key. 
   * To check all the keys `KEYS *`
