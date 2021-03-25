@@ -14,23 +14,23 @@ Then run the command `redis-server redis.conf` for every node to run the server.
 
 ##### Testing:
 ###### Set and get key from Database:
-    * At first set some key into master node as many as you want 
-    * `redis-cli -p 6379` then `set name prangan` 
-    * Now check if it's synchonized in the other two slaves or not. if it's in slave also then your setup is ok, otherwise error 
-    * Then go to another slave node `redis-cli -p 6381` and try to set a key. But it will show `You can't write against a read only replica` since it's the slave node. you don't have any permission to write there. You can only get a key. 
-    * To check all the keys `KEYS *`
+  * At first set some key into master node as many as you want 
+  * `redis-cli -p 6379` then `set name prangan` 
+  * Now check if it's synchonized in the other two slaves or not. if it's in slave also then your setup is ok, otherwise error 
+  * Then go to another slave node `redis-cli -p 6381` and try to set a key. But it will show `You can't write against a read only replica` since it's the slave node. you don't have any permission to write there. You can only get a key. 
+  * To check all the keys `KEYS *`
 
 ###### Testing Failover:
-    * Run one of those command to down your master node, let's say your master is running on port 6379 
+* Run one of those command to down your master node, let's say your master is running on port 6379 
   ```
   redis-cli -p 6379 DEBUG sleep 30   or 
   kill -9 <process id>               or 
   redis-cli -p 6379 DEBUG SEGFAULT
 
   ```
-  * Now go to any sentinel using `redis-cli -p 26379` and check which node is master now `SENTINEL get-master-addr-by-name mymaster`  , A new slave will be the new master. 
-  * Now set some key in the new master, and check if it's being forwarded to the other slave or not. The new key should be forwarded to the slave also.
-  * Now again restart your previously killed/paused server , like port : 6379 . It'll be added to the slave list. And check if all the set key can be get from your slave 6379. 
+* Now go to any sentinel using `redis-cli -p 26379` and check which node is master now `SENTINEL get-master-addr-by-name mymaster`  , A new slave will be the new master. 
+* Now set some key in the new master, and check if it's being forwarded to the other slave or not. The new key should be forwarded to the slave also.
+* Now again restart your previously killed/paused server , like port : 6379 . It'll be added to the slave list. And check if all the set key can be get from your slave 6379. 
 
 
 
